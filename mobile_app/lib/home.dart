@@ -1,0 +1,37 @@
+import 'package:flutter/material.dart';
+
+class HomePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: Image.asset(
+              "assets/images/test.png",
+              width: double.infinity,
+              height: 140,
+              fit: BoxFit.cover,
+            ),
+          ),
+          SizedBox(height: 20),
+          Card(
+            child: ListTile(
+              leading: Icon(Icons.home, color: Colors.black),
+              title: Text(
+                "Home Dashboard",
+                style: TextStyle(color: Colors.black),
+              ),
+              subtitle: Text(
+                "Welcome to your home screen",
+                style: TextStyle(color: Colors.grey),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
