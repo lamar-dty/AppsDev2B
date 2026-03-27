@@ -85,7 +85,6 @@ class _MainScreenState extends State<MainScreen> {
       drawer: Drawer(
         child: Column(
           children: [
-
             UserAccountsDrawerHeader(
               decoration: BoxDecoration(color: Colors.black),
               accountName: Text(
@@ -106,21 +105,18 @@ class _MainScreenState extends State<MainScreen> {
                 color: Colors.white,
                 child: ListView(
                   children: [
-
                     ListTile(
                       leading: Icon(Icons.home, color: Colors.black),
                       title: Text("Home",
                           style: TextStyle(color: Colors.black)),
                       onTap: () => _navigateFromDrawer(0),
                     ),
-
                     ListTile(
                       leading: Icon(Icons.search, color: Colors.black),
                       title: Text("Search",
                           style: TextStyle(color: Colors.black)),
                       onTap: () => _navigateFromDrawer(1),
                     ),
-
                     ListTile(
                       leading: Icon(Icons.person, color: Colors.black),
                       title: Text("Profile",
@@ -135,7 +131,28 @@ class _MainScreenState extends State<MainScreen> {
         ),
       ),
 
-      body: _pages[_selectedIndex],
+      // ANIMATION
+      body: AnimatedSwitcher(
+        duration: Duration(milliseconds: 300),
+        transitionBuilder: (child, animation) {
+          final offsetAnimation = Tween<Offset>(
+            begin: Offset(0.1, 0),
+            end: Offset.zero,
+          ).animate(animation);
+
+          return FadeTransition(
+            opacity: animation,
+            child: SlideTransition(
+              position: offsetAnimation,
+              child: child,
+            ),
+          );
+        },
+        child: KeyedSubtree(
+          key: ValueKey<int>(_selectedIndex),
+          child: _pages[_selectedIndex],
+        ),
+      ),
 
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.black,
