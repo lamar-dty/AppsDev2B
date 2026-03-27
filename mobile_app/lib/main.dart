@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'home.dart';
 import 'search.dart';
 import 'profile.dart';
+import 'settings.dart';
 
 void main() {
   runApp(MyApp());
@@ -56,8 +57,9 @@ class _MainScreenState extends State<MainScreen> {
 
   final List<Widget> _pages = [
     HomePage(),
-    SearchPage(),
     ProfilePage(),
+    SearchPage(),
+    SettingsPage(),
   ];
 
   void _onItemTapped(int index) {
@@ -112,16 +114,22 @@ class _MainScreenState extends State<MainScreen> {
                       onTap: () => _navigateFromDrawer(0),
                     ),
                     ListTile(
-                      leading: Icon(Icons.search, color: Colors.black),
-                      title: Text("Search",
+                      leading: Icon(Icons.person, color: Colors.black),
+                      title: Text("Profile",
                           style: TextStyle(color: Colors.black)),
                       onTap: () => _navigateFromDrawer(1),
                     ),
                     ListTile(
-                      leading: Icon(Icons.person, color: Colors.black),
-                      title: Text("Profile",
+                      leading: Icon(Icons.search, color: Colors.black),
+                      title: Text("Search",
                           style: TextStyle(color: Colors.black)),
                       onTap: () => _navigateFromDrawer(2),
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.settings, color: Colors.black),
+                      title: Text("Settings",
+                          style: TextStyle(color: Colors.black)),
+                      onTap: () => _navigateFromDrawer(3),
                     ),
                   ],
                 ),
@@ -167,12 +175,16 @@ class _MainScreenState extends State<MainScreen> {
             label: "Home",
           ),
           BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: "Profile",
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.search),
             label: "Search",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: "Profile",
+            icon: Icon(Icons.settings),
+            label: "Settings",
           ),
         ],
       ),
