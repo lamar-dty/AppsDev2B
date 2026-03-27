@@ -81,8 +81,12 @@ class _MainScreenState extends State<MainScreen> {
       backgroundColor: Colors.white,
 
       appBar: AppBar(
-        title: Text("Noir App"),
-      ),
+  title: const Text('ONLY PAYPAY'),
+  titleTextStyle: const TextStyle(
+    fontSize: 18.0, 
+    color: Colors.white,
+  ),
+),
 
       drawer: Drawer(
         child: Column(
