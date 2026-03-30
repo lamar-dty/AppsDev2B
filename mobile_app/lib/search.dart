@@ -12,8 +12,11 @@ class SearchPage extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (_) => DetailPage(
+                PageRouteBuilder(
+                  opaque: false,
+                  barrierColor: Colors.black54,
+                  transitionDuration: Duration(milliseconds: 400),
+                  pageBuilder: (_, __, ___) => DetailPage(
                     imagePath: "assets/images/search.png",
                     tag: "searchHero",
                   ),
@@ -33,14 +36,20 @@ class SearchPage extends StatelessWidget {
               ),
             ),
           ),
+
           SizedBox(height: 20),
+
           Card(
             child: ListTile(
               leading: Icon(Icons.search, color: Colors.black),
-              title: Text("Search Section",
-                  style: TextStyle(color: Colors.black)),
-              subtitle: Text("Find content easily",
-                  style: TextStyle(color: Colors.grey)),
+              title: Text(
+                "Search Section",
+                style: TextStyle(color: Colors.black),
+              ),
+              subtitle: Text(
+                "Find content easily",
+                style: TextStyle(color: Colors.grey),
+              ),
             ),
           ),
         ],

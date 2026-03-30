@@ -12,8 +12,11 @@ class HomePage extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (_) => DetailPage(
+                PageRouteBuilder(
+                  opaque: false,
+                  barrierColor: Colors.black54,
+                  transitionDuration: Duration(milliseconds: 400),
+                  pageBuilder: (_, __, ___) => DetailPage(
                     imagePath: "assets/images/test.png",
                     tag: "homeHero",
                   ),
@@ -33,14 +36,20 @@ class HomePage extends StatelessWidget {
               ),
             ),
           ),
+
           SizedBox(height: 20),
+
           Card(
             child: ListTile(
               leading: Icon(Icons.home, color: Colors.black),
-              title: Text("Home Dashboard",
-                  style: TextStyle(color: Colors.black)),
-              subtitle: Text("Welcome to your home screen",
-                  style: TextStyle(color: Colors.grey)),
+              title: Text(
+                "Home Dashboard",
+                style: TextStyle(color: Colors.black),
+              ),
+              subtitle: Text(
+                "Welcome to your home screen",
+                style: TextStyle(color: Colors.grey),
+              ),
             ),
           ),
         ],

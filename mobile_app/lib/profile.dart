@@ -12,8 +12,11 @@ class ProfilePage extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (_) => DetailPage(
+                PageRouteBuilder(
+                  opaque: false,
+                  barrierColor: Colors.black54,
+                  transitionDuration: Duration(milliseconds: 400),
+                  pageBuilder: (_, __, ___) => DetailPage(
                     imagePath: "assets/images/profile.png",
                     tag: "profileHero",
                   ),
@@ -29,14 +32,20 @@ class ProfilePage extends StatelessWidget {
               ),
             ),
           ),
+
           SizedBox(height: 20),
+
           Card(
             child: ListTile(
               leading: Icon(Icons.person, color: Colors.black),
-              title: Text("Peter Parker",
-                  style: TextStyle(color: Colors.black)),
-              subtitle: Text("Profile Information",
-                  style: TextStyle(color: Colors.grey)),
+              title: Text(
+                "Peter Parker",
+                style: TextStyle(color: Colors.black),
+              ),
+              subtitle: Text(
+                "Profile Information",
+                style: TextStyle(color: Colors.grey),
+              ),
             ),
           ),
         ],

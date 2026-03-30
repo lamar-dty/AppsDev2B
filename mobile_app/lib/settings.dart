@@ -12,8 +12,11 @@ class SettingsPage extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (_) => DetailPage(
+                PageRouteBuilder(
+                  opaque: false,
+                  barrierColor: Colors.black54,
+                  transitionDuration: Duration(milliseconds: 400),
+                  pageBuilder: (_, __, ___) => DetailPage(
                     imagePath: "assets/images/settings.png",
                     tag: "settingsHero",
                   ),
@@ -33,14 +36,20 @@ class SettingsPage extends StatelessWidget {
               ),
             ),
           ),
+
           SizedBox(height: 20),
+
           Card(
             child: ListTile(
               leading: Icon(Icons.settings, color: Colors.black),
-              title: Text("Settings Section",
-                  style: TextStyle(color: Colors.black)),
-              subtitle: Text("Customize how the app works for you",
-                  style: TextStyle(color: Colors.grey)),
+              title: Text(
+                "Settings Section",
+                style: TextStyle(color: Colors.black),
+              ),
+              subtitle: Text(
+                "Customize how the app works for you",
+                style: TextStyle(color: Colors.grey),
+              ),
             ),
           ),
         ],
