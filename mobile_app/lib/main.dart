@@ -212,7 +212,7 @@ class _MainScreenState extends State<MainScreen>
         ),
       ),
 
-      // 🔥 Page transition animation (already yours)
+      // page transition
       body: AnimatedSwitcher(
         duration: Duration(milliseconds: 300),
         transitionBuilder: (child, animation) {
