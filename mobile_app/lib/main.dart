@@ -14,25 +14,21 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Noir App',
-
       theme: ThemeData(
         useMaterial3: true,
         brightness: Brightness.dark,
-
         appBarTheme: AppBarTheme(
           backgroundColor: Colors.black,
           foregroundColor: Colors.white,
           elevation: 0,
           centerTitle: true,
         ),
-
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
           backgroundColor: Colors.black,
           selectedItemColor: Colors.white,
           unselectedItemColor: Colors.grey,
           type: BottomNavigationBarType.fixed,
         ),
-
         cardTheme: CardThemeData(
           color: Colors.white,
           elevation: 4,
@@ -41,7 +37,6 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-
       home: MainScreen(),
     );
   }
@@ -52,8 +47,11 @@ class MainScreen extends StatefulWidget {
   _MainScreenState createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _MainScreenState extends State<MainScreen>
+    with SingleTickerProviderStateMixin {
   int _selectedIndex = 0;
+
+  late AnimationController _controller;
 
   final List<Widget> _pages = [
     HomePage(),
@@ -61,6 +59,21 @@ class _MainScreenState extends State<MainScreen> {
     SearchPage(),
     SettingsPage(),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 600),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -75,18 +88,62 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
+  // 🔥 Staggered animation builder
+  Widget buildStaggeredItem({
+    required int index,
+    required Widget child,
+  }) {
+    final slideAnimation = Tween<Offset>(
+      begin: Offset(0.3, 0),
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Interval(
+          (index * 0.1),
+          1.0,
+          curve: Curves.easeOut,
+        ),
+      ),
+    );
+
+    final fadeAnimation = CurvedAnimation(
+      parent: _controller,
+      curve: Interval(
+        (index * 0.1),
+        1.0,
+        curve: Curves.easeIn,
+      ),
+    );
+
+    return FadeTransition(
+      opacity: fadeAnimation,
+      child: SlideTransition(
+        position: slideAnimation,
+        child: child,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
 
+      // 🔥 Detect drawer open
+      onDrawerChanged: (isOpened) {
+        if (isOpened) {
+          _controller.forward(from: 0);
+        }
+      },
+
       appBar: AppBar(
-  title: const Text('ONLY PAYPAY'),
-  titleTextStyle: const TextStyle(
-    fontSize: 18.0, 
-    color: Colors.white,
-  ),
-),
+        title: const Text('ONLY PAYPAYs'),
+        titleTextStyle: const TextStyle(
+          fontSize: 18.0,
+          color: Colors.white,
+        ),
+      ),
 
       drawer: Drawer(
         child: Column(
@@ -111,29 +168,41 @@ class _MainScreenState extends State<MainScreen> {
                 color: Colors.white,
                 child: ListView(
                   children: [
-                    ListTile(
-                      leading: Icon(Icons.home, color: Colors.black),
-                      title: Text("Home",
-                          style: TextStyle(color: Colors.black)),
-                      onTap: () => _navigateFromDrawer(0),
+                    buildStaggeredItem(
+                      index: 0,
+                      child: ListTile(
+                        leading: Icon(Icons.home, color: Colors.black),
+                        title: Text("Home",
+                            style: TextStyle(color: Colors.black)),
+                        onTap: () => _navigateFromDrawer(0),
+                      ),
                     ),
-                    ListTile(
-                      leading: Icon(Icons.person, color: Colors.black),
-                      title: Text("Profile",
-                          style: TextStyle(color: Colors.black)),
-                      onTap: () => _navigateFromDrawer(1),
+                    buildStaggeredItem(
+                      index: 1,
+                      child: ListTile(
+                        leading: Icon(Icons.person, color: Colors.black),
+                        title: Text("Profile",
+                            style: TextStyle(color: Colors.black)),
+                        onTap: () => _navigateFromDrawer(1),
+                      ),
                     ),
-                    ListTile(
-                      leading: Icon(Icons.search, color: Colors.black),
-                      title: Text("Search",
-                          style: TextStyle(color: Colors.black)),
-                      onTap: () => _navigateFromDrawer(2),
+                    buildStaggeredItem(
+                      index: 2,
+                      child: ListTile(
+                        leading: Icon(Icons.search, color: Colors.black),
+                        title: Text("Search",
+                            style: TextStyle(color: Colors.black)),
+                        onTap: () => _navigateFromDrawer(2),
+                      ),
                     ),
-                    ListTile(
-                      leading: Icon(Icons.settings, color: Colors.black),
-                      title: Text("Settings",
-                          style: TextStyle(color: Colors.black)),
-                      onTap: () => _navigateFromDrawer(3),
+                    buildStaggeredItem(
+                      index: 3,
+                      child: ListTile(
+                        leading: Icon(Icons.settings, color: Colors.black),
+                        title: Text("Settings",
+                            style: TextStyle(color: Colors.black)),
+                        onTap: () => _navigateFromDrawer(3),
+                      ),
                     ),
                   ],
                 ),
@@ -143,7 +212,7 @@ class _MainScreenState extends State<MainScreen> {
         ),
       ),
 
-      // ANIMATION
+      // 🔥 Page transition animation (already yours)
       body: AnimatedSwitcher(
         duration: Duration(milliseconds: 300),
         transitionBuilder: (child, animation) {
